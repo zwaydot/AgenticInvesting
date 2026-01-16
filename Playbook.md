@@ -89,4 +89,3 @@
 ### 操作规则记忆
 
 - **[2026-01-17]** 计算个股仓位时，分母使用总资产（包含现金），即：个股仓位占比 = 个股市值 / 总资产，现金仓位也需明确计算和展示
-- **[2026-01-17]** `conversation-summary` skill 存储对话总结的固定 Notion 页面：https://www.notion.so/alivedesign/Agent-Investing-2e850145005b80ca8e23fbcbb1257239
