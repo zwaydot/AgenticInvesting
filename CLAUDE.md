@@ -2,6 +2,14 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ 重要提示
+
+**在执行任何投资分析或交易任务前，请务必先阅读 `Playbook.md`**
+
+该文档包含核心投资策略、选股标准、仓位管理规则和经验教训。所有投资决策必须严格遵循 Playbook 中定义的原则和框架。
+
+---
+
 ## Project Overview
 
 This is an Alpaca trading project for developing and testing trading strategies using the Alpaca Trading API. The project defaults to paper trading (simulation) mode for safe testing.
