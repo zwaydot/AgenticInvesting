@@ -56,7 +56,51 @@ Before providing investment analysis or calculations:
 
 ## Project Overview
 
-This is an Alpaca trading project for developing and testing trading strategies using the Alpaca Trading API. The project defaults to paper trading (simulation) mode for safe testing.
+This is a **dual-account trading system** using AI agents:
+- **Alpaca (Paper Trading)**: For strategy development and testing (US markets, no real money)
+- **Longbridge (Live Trading)**: For real execution (SG/HK/US markets, real money)
+
+## MCP Server Configuration
+
+**IMPORTANT**: Both trading platforms are configured as MCP servers in `.claude/mcp.json`:
+
+### Available MCP Tools
+
+**Alpaca MCP** (`mcp__alpaca__*`):
+- `get_account_info()` - Get Alpaca paper account status
+- `get_all_positions()` - Get all positions
+- `get_orders()` - Get order history
+- `place_stock_order()` - Place stock orders
+- And more... (see function list)
+
+**Longbridge MCP** (`mcp__longbridge__*`):
+- `account_balance()` - Get Longbridge account balance
+- `stock_positions()` - Get stock positions
+- `submit_order()` - Submit orders
+- `quote()` - Get real-time quotes
+- And more... (see function list)
+
+### MCP Usage Rules for Claude
+
+When user requests account information or trading operations:
+
+1. **DO NOT explore project structure first** - MCP tools are already available
+2. **DO NOT check if MCP is "working"** - both are configured and ready
+3. **Directly call the appropriate MCP tool** based on the user's request
+4. **Treat both MCPs equally** - don't prefer Alpaca just because it's mentioned more in docs
+
+**Example - CORRECT behavior**:
+```
+User: "查看longbridge账户"
+Claude: [Immediately calls mcp__longbridge__account_balance()]
+```
+
+**Example - WRONG behavior** (avoid this):
+```
+User: "查看longbridge账户"
+Claude: [Reads mcp.json, calls ListMcpResourcesTool, explores files...]
+        [Finally calls mcp__longbridge__account_balance()]
+```
 
 ## Setup
 
@@ -70,24 +114,19 @@ pip install -r requirements.txt
 
 # Configure API keys (copy from example and edit)
 cp .env.example .env
-# Edit .env with your Alpaca credentials
+# Edit .env with both Alpaca and Longbridge credentials
 ```
 
-## API Endpoints
+## Account Access via MCP
 
-- **Paper Trading**: `https://paper-api.alpaca.markets/v2`
-- **Live Trading**: `https://api.alpaca.markets/v2`
-
-Set `ALPACA_PAPER_TRADE` in `.env` to switch between modes.
-
-## Common Tasks
-
-**Get account info:**
-```bash
-python -c "from strategy_template import get_account; print(get_account())"
+**Check Alpaca account:**
+```python
+mcp__alpaca__get_account_info()
+mcp__alpaca__get_all_positions()
 ```
 
-**Run a strategy:**
-```bash
-python your_strategy.py
+**Check Longbridge account:**
+```python
+mcp__longbridge__account_balance()
+mcp__longbridge__stock_positions()
 ```
